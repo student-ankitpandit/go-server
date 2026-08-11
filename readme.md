@@ -1,1 +1,0 @@
-Putted my first hands on go server.
