@@ -7,19 +7,22 @@ import (
 	"time"
 
 	"github.com/student-ankitpandit/go-server/internal/config"
+	"github.com/student-ankitpandit/go-server/internal/db"
+	"github.com/student-ankitpandit/go-server/internal/handlers"
 )
 
 func main() {
 	cfg := config.MustLoad()
+	_, err := db.Connect(cfg.DatabaseUrl)
+	if err != nil {
+		log.Fatalf("main.db.connect: %v", err)
+	}
 
+	fmt.Println("db connected successfully")
 	fmt.Println("starting go server...")
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status":"all ok"}`))
-	})
+	mux.HandleFunc("GET /health", handlers.Health)
 
 	srv := http.Server{
 		Addr:         ":" + cfg.Port,
