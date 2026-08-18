@@ -25,7 +25,10 @@ func MustLoad() Config { //must pattern
 		panic("ENV is required!")
 	}
 
-	DBUrl := os.Getenv("DatabaseUrl")
+	DBUrl := os.Getenv("DATABASE_URL")
+	if DBUrl == "" {
+		panic("Database Url is required")
+	}
 
 	return Config{
 		Port: port,
