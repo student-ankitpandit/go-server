@@ -1,4 +1,4 @@
-.PHONY: build run build-migrate
+.PHONY: build run build-migrate migrate-up migrate-down
 
 build:
 	@go build -o bin/api ./cmd/api

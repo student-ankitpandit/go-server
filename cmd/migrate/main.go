@@ -32,7 +32,7 @@ func main() {
 			log.Fatalf("m.Up failed to up the migrations: %v", err)
 		}
 	case "down":
-		if err := m.Down(); err != nil {
+		if err := m.Steps(-1); err != nil {
 			log.Fatalf("m.Down failed to drop a table or coloumn: %v", err)
 		}
 	default:
