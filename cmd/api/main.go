@@ -13,17 +13,22 @@ import (
 
 func main() {
 	cfg := config.MustLoad()
-	_, err := db.Connect(cfg.DatabaseUrl)
+	db, err := db.Connect(cfg.DatabaseUrl)
 	if err != nil {
 		log.Fatalf("main.db.connect: %v", err)
 	}
 
 	fmt.Println("db connected successfully")
 	fmt.Println("starting go server...")
+
+	//initilizing struct via constructor fn
+	ph := handlers.NewPostHandler(db) //will pass all dps at once from here
+	
 	mux := http.NewServeMux()
-
 	mux.HandleFunc("GET /health", handlers.Health)
-
+	mux.HandleFunc("GET /posts", ph.Post)
+	mux.HandleFunc("DELETE /delete-post/{id}", ph.Delete)
+	
 	srv := http.Server{
 		Addr:         ":" + cfg.Port,
 		Handler:      mux,

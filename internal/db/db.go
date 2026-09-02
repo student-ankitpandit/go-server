@@ -19,6 +19,7 @@ func Connect(databaseUrl string) (*sql.DB, error) {
 	db.SetMaxIdleConns(25)
 	db.SetConnMaxLifetime(3 * time.Minute)
 
+	//deadline context
 	ctx, cancelFunc := context.WithTimeout(context.Background(), 5 * time.Second)
 	defer cancelFunc()
 
