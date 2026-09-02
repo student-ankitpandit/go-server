@@ -70,14 +70,18 @@ func (p postHandler) Post(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p postHandler) Delete (w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	_ = ctx.Value("requestCtxId").(string)
 	id := r.PathValue("id")
-
+	
+	
 	_, err := p.db.Exec(
 		`DELETE FROM post WHERE id = $1`, id,
 	)
 
 	if err != nil {
 		log.Printf("delete: %v", err)
+		//can log requestId here using slog
 		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}

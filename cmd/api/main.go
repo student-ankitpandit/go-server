@@ -9,6 +9,7 @@ import (
 	"github.com/student-ankitpandit/go-server/internal/config"
 	"github.com/student-ankitpandit/go-server/internal/db"
 	"github.com/student-ankitpandit/go-server/internal/handlers"
+	"github.com/student-ankitpandit/go-server/internal/middlewares"
 )
 
 func main() {
@@ -28,10 +29,12 @@ func main() {
 	mux.HandleFunc("GET /health", handlers.Health)
 	mux.HandleFunc("GET /posts", ph.Post)
 	mux.HandleFunc("DELETE /delete-post/{id}", ph.Delete)
+
+	handler := middlewares.RequestId(mux)
 	
 	srv := http.Server{
 		Addr:         ":" + cfg.Port,
-		Handler:      mux,
+		Handler:      handler,
 		ReadTimeout:  time.Second * 10,
 		WriteTimeout: time.Second * 30,
 		IdleTimeout:  time.Second * 60,
