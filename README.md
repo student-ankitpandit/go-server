@@ -1,1 +1,1 @@
-My first golang server.
+My first Golang server.
