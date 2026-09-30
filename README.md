@@ -1,1 +1,1 @@
-Putted my first hands on golang.
+My first golang server.
